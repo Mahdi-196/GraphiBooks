@@ -17,6 +17,7 @@ const corsOptions = {
   credentials: true,
 };
 
+
 app.use(cors(corsOptions));
 
 const server = new ApolloServer({

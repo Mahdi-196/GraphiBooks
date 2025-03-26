@@ -10,7 +10,9 @@ import {
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: process.env.NODE_ENV === 'production' 
+    ? 'https://graphibooks.onrender.com/graphql'
+    : '/graphql', 
 });
 
 const authLink = setContext((_, { headers }) => {

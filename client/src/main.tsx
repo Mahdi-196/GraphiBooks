@@ -7,9 +7,8 @@ import App from './App';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 
-// main.tsx or wherever you initialize ApolloClient
 const client = new ApolloClient({
-  uri: 'http://localhost:3001/graphql', // ✅ Make sure this is EXACT and NOT relative
+  uri: 'http://localhost:3001/graphql',
   cache: new InMemoryCache(),
 });
 
