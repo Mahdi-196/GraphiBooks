@@ -10,11 +10,11 @@ import cors from 'cors';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;  
 
 const corsOptions = {
-  origin: 'https://graphibooks.onrender.com',
-  credentials: true, 
+  origin: 'https://graphibooks.onrender.com', 
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -42,8 +42,9 @@ const startServer = async () => {
     });
   }
 
+  // Ensure app listens on the correct host and port
   db.once('open', () => {
-    app.listen(PORT, () =>
+    app.listen(PORT, '0.0.0.0', () =>
       console.log(`🌍 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
     );
   });
