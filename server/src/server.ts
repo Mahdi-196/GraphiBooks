@@ -13,7 +13,7 @@ const app = express();
 const port = parseInt(process.env.PORT as string, 10) || 3001;
 
 const corsOptions = {
-  origin: 'https://graphibooks.onrender.com',
+  origin: 'https://graphibooks.onrender.com/',
   credentials: true,
 };
 
