@@ -7,11 +7,10 @@ import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 import cors from 'cors';
 
-dotenv.config(); 
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
 const mongoURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongoURI!)
@@ -37,24 +36,21 @@ const server = new ApolloServer({
 
 const startServer = async () => {
   await server.start();
-  server.applyMiddleware({
-    app: app as any,
-    cors: false,
-  });
+  server.applyMiddleware({ app: app as any, cors: false });
 
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(path.resolve(), '../client/build')));
+    app.use(express.static(path.join(__dirname, '../../client/build')));
     app.get('*', (_req, res) => {
-      res.sendFile(path.join(path.resolve(), '../client/build/index.html'));
+      res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
     });
   }
 
-  app.listen(PORT, () =>
-    console.log(`🌍 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
-  );
+  app.listen(PORT, () => {
+    console.log(`🌍 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  });
 };
 
 startServer();
