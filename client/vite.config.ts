@@ -4,23 +4,20 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0', // Bind to all network interfaces
-    port: process.env.PORT ? Number(process.env.PORT) : 3000, // Use the environment variable or fallback to 3000
+    host: '0.0.0.0', // Allow connections from any IP address
+    port: process.env.PORT ? Number(process.env.PORT) : 3000, // Use environment variable or fallback to 3000
     proxy: {
       '/graphql': {
-        target: 'http://localhost:3001', // Proxy requests to backend server
+        target: 'http://localhost:3001', // Adjust target if your backend server URL differs
         changeOrigin: true,
-        secure: false, // Disables SSL verification for the proxy
+        secure: false, // Disable SSL verification for development purposes
       },
     },
-    allowedHosts: ['*'], // Allow all hosts to access the server
-    watch: {
-      usePolling: true, // Enable polling to detect changes (especially useful for Docker/CI environments)
-    },
+    allowedHosts: ['*'], // This allows all hosts, should cover "graphibooks.onrender.com"
   },
   preview: {
-    host: '0.0.0.0', // Allow preview to bind to any network interface
+    host: '0.0.0.0', // Bind to any network interface in preview mode
     port: process.env.PORT ? Number(process.env.PORT) : 3000, // Set port based on environment variable or default to 3000
-    allowedHosts: ['*'], // Allow all hosts to access during preview
+    allowedHosts: ['graphibooks.onrender.com']
   },
 });
