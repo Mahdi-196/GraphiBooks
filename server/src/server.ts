@@ -5,10 +5,19 @@ import dotenv from 'dotenv';
 import db from './config/connection.js';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
+import cors from 'cors';
 
 dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+const corsOptions = {
+  origin: 'https://graphibooks.onrender.com',
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));
 
 const server = new ApolloServer({
   typeDefs,
@@ -20,13 +29,7 @@ const startServer = async () => {
   await server.start();
   server.applyMiddleware({
     app: app as any,
-    cors: {
-      origin: [
-        'http://localhost:3000',  // Localhost (for development)
-        'https://graphibooks.onrender.com',  // Allowed render domain
-      ],
-      credentials: true,
-    },
+    cors: false, 
   });
 
   app.use(express.urlencoded({ extended: true }));
