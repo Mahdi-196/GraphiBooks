@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0', // Allow connections from any IP address
+    host: '0.0.0.0',
     port: process.env.PORT ? Number(process.env.PORT) : 3000, // Use environment variable or fallback to 3000
     proxy: {
       '/graphql': {
@@ -13,11 +13,11 @@ export default defineConfig({
         secure: false, // Disable SSL verification for development purposes
       },
     },
-    allowedHosts: ['*'], // This allows all hosts, should cover "graphibooks.onrender.com"
+    allowedHosts: ['graphibooks.onrender.com'],
   },
   preview: {
     host: '0.0.0.0', // Bind to any network interface in preview mode
     port: process.env.PORT ? Number(process.env.PORT) : 3000, // Set port based on environment variable or default to 3000
-    allowedHosts: true
+    allowedHosts: ['graphibooks.onrender.com'],
   },
 });
