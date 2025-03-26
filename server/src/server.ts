@@ -7,7 +7,6 @@ import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -19,11 +18,13 @@ const server = new ApolloServer({
 
 const startServer = async () => {
   await server.start();
-
   server.applyMiddleware({
     app: app as any,
     cors: {
-      origin: 'http://localhost:4173',
+      origin: [
+        'http://localhost:3000',  // Localhost (for development)
+        'https://graphibooks.onrender.com',  // Allowed render domain
+      ],
       credentials: true,
     },
   });
