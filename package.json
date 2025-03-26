@@ -26,6 +26,7 @@
     "@apollo/client": "^3.13.5",
     "apollo-server-express": "^3.13.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "graphql": "^16.10.0"
   }
 }

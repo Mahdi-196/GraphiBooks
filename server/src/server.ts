@@ -2,21 +2,30 @@ import express from 'express';
 import path from 'node:path';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
-import db from './config/connection.js';
+import mongoose from 'mongoose';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 import cors from 'cors';
 
-dotenv.config();
+dotenv.config(); 
 
 const app = express();
-const port = parseInt(process.env.PORT as string, 10) || 3001;
+const PORT = process.env.PORT || 3001;
+
+const mongoURI = process.env.MONGODB_URI;
+
+mongoose.connect(mongoURI!)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
 
 const corsOptions = {
-  origin: 'https://graphibooks.onrender.com/',
+  origin: ['https://graphibooks.onrender.com'],
   credentials: true,
 };
-
 
 app.use(cors(corsOptions));
 
@@ -43,11 +52,9 @@ const startServer = async () => {
     });
   }
 
-  db.once('open', () => {
-    app.listen(port, '0.0.0.0', () => {
-      console.log(`🌍 Server ready at http://localhost:${port}${server.graphqlPath}`);
-    });
-  });
+  app.listen(PORT, () =>
+    console.log(`🌍 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+  );
 };
 
 startServer();
