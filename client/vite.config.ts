@@ -4,21 +4,19 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,  
-    open: true,
+    host: '0.0.0.0', 
+    port: process.env.PORT ? Number(process.env.PORT) : 3000, 
     proxy: {
       '/graphql': {
-        target: 'http://localhost:3001',  
+        target: 'http://localhost:3001', 
         changeOrigin: true,
         secure: false,
       },
     },
   },
   preview: {
-    host: '0.0.0.0',
-    port: process.env.PORT ? Number(process.env.PORT) : 3000,
-    allowedHosts: ['graphibooks.onrender.com'],
+    host: '0.0.0.0', 
+    port: process.env.PORT ? Number(process.env.PORT) : 3000, 
+    allowedHosts: ['graphibooks.onrender.com'],  
   },
 });
-
-
