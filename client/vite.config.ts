@@ -18,6 +18,6 @@ export default defineConfig({
   preview: {
     host: '0.0.0.0', // Bind to any network interface in preview mode
     port: process.env.PORT ? Number(process.env.PORT) : 3000, // Set port based on environment variable or default to 3000
-    allowedHosts: ['graphibooks.onrender.com']
+    allowedHosts: true
   },
 });
