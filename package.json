@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server/src/server.ts",
   "scripts": {
-    "start": "node server/dist/server.js",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
     "start:server": "node server/dist/server.js",
     "start:client": "cd client && npm run dev",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
