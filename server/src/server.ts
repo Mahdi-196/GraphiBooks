@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'node:path';
+import { fileURLToPath } from 'url';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
@@ -7,10 +8,10 @@ import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 import cors from 'cors';
 
-dotenv.config(); 
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 
 const mongoURI = process.env.MONGODB_URI;
 
@@ -45,12 +46,14 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(path.resolve(), '../client/build')));
-    app.get('*', (_req, res) => {
-      res.sendFile(path.join(path.resolve(), '../client/build/index.html'));
-    });
-  }
+  // Serve static files from client/dist (Vite)
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  app.use(express.static(path.join(__dirname, '../../client/dist')));
+
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+  });
 
   app.listen(PORT, () =>
     console.log(`🌍 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
